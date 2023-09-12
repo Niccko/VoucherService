@@ -27,7 +27,7 @@ jobs:
 
       # Runs a set of commands using the runners shell
                         
-      - name: Update project      
+      - name: Backup project      
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -35,5 +35,6 @@ jobs:
           password: ${{ secrets.SERVER_SSH_PWD }}
           port: 22
           script: |
-            pwd
-            ls
+            rm -rf /app/vouchers
+            mkdir /app/vouchers
+            
