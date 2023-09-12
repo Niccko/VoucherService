@@ -51,4 +51,14 @@ jobs:
           port: 22
           source: "deploy.tar"
           target: "/app/vouchers"
+      - name: Unpack and run
+        run: |
+          cd /app/vouchers
+          tar -xf deploy.tar
+          python3 -m venv venv
+          ./venv/bin/activate
+          pip install -r requirements.txt
+          python 3 main.py
+          
+          
             
