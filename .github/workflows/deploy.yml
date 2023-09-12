@@ -32,4 +32,4 @@ jobs:
           PASS: ${{ secrets.SERVER_SSH_PWD }}
           HOST: ${{ secrets.SERVER_HOST }}
         run: |
-          sshpass -p \"$PASS\" ssh "$USER"@"$HOST" mkdir /app
+          sshpass -p \"$PASS\" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ssh "$USER"@"$HOST" mkdir /app
