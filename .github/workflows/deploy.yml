@@ -33,8 +33,7 @@ jobs:
           HOST: ${{ secrets.SERVER_HOST }}
         run: |
           sshpass -p "3vh7UJnj" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null fncadmin@"$HOST" mkdir /app/vouchers
-          sshpass -p "3vh7UJnj" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null fncadmin@"$HOST" pwd
-          sshpass -p "3vh7UJnj" scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null scp -r . fncadmin@"$HOST":/app/vouchers/
+          sshpass -p "3vh7UJnj" scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null scp -r ~/* fncadmin@"$HOST":/app/vouchers/
           sshpass -p "3vh7UJnj" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ssh fncadmin@"$HOST" cd /app/vouchers
           sshpass -p "3vh7UJnj" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ssh fncadmin@"$HOST" python3 -m venv venv
           sshpass -p "3vh7UJnj" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ssh fncadmin@"$HOST" ./venv/bin/activate
