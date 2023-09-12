@@ -32,4 +32,6 @@ jobs:
           PASS: ${{ secrets.SERVER_SSH_PWD }}
           HOST: ${{ secrets.SERVER_HOST }}
         run: |
+          echo "$USER"@"$HOST"
+          echo ""$PASS""
           sshpass -p ""$PASS"" ssh "$USER"@"$HOST" mkdir /app
