@@ -32,4 +32,4 @@ jobs:
           PASS: ${{ secrets.SERVER_SSH_PWD }}
           HOST: ${{ secrets.SERVER_HOST }}
         run: |
-          sshpass -p "3vh7UJnj" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null fncadmin@"$HOST" sudo mkdir /app
+          sshpass -p "3vh7UJnj" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null fncadmin@"$HOST" mkdir /app
