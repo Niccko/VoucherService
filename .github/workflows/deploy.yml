@@ -60,10 +60,8 @@ jobs:
           script: |
             cd /app/vouchers
             tar -xf deploy.tar
-            python3 -m venv venv
-            soirce venv/bin/activate
-            pip install -r requirements.txt
-            python3 main.py
+            docker build -t vouchers .
+            docker run -d --name vouchers_container -p 8000:8000 vouchers
 
           
           
