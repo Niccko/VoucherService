@@ -22,7 +22,9 @@ async def add_voucher_data(voucher_qr_raw: str):
 
     if not r.status_code == 200:
         return response_error("OFD_ERROR", r.status_code, "Error while getting voucher info")
-    data = r.json().get("data").get("json")
+    data = r.json().get("data")
+    if not isinstance(data, dict):
+        return response_error("OFD_ERROR", r.status_code, str(data))
     voucher = {
         "code": data.get("code"),
         "user": data.get("user"),
