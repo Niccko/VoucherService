@@ -22,8 +22,8 @@ def auth(
     current_username_bytes = credentials.username.encode("utf8")
     current_password_bytes = credentials.password.encode("utf8")
 
-    is_correct_username = secrets.compare_digest(current_username_bytes, correct_username)
-    is_correct_password = secrets.compare_digest(current_password_bytes, correct_password)
+    is_correct_username = secrets.compare_digest(current_username_bytes, correct_username.encode("utf8"))
+    is_correct_password = secrets.compare_digest(current_password_bytes, correct_password.encode("utf8"))
 
     if not (is_correct_username and is_correct_password):
         raise HTTPException(
