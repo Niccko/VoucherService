@@ -61,8 +61,14 @@ jobs:
           script: |
             cd /app/vouchers
             tar -xf deploy.tar
+            docker rm -f vouchers_container
             docker build -t vouchers /app/vouchers
-            docker run -d --name vouchers_container -p 8000:8000 vouchers
+            docker run -d --name vouchers_container -p 8000:8000 \
+            -e ADMIN_LOGIN="$ADMIN_LOGIN" \
+            -e ADMIN_PWD="$ADMIN_PWD" \
+            -e MONGO_LOGIN="$MONGO_LOGIN" \
+            -e MONGO_PWD="$MONGO_PWD" \
+            vouchers
 
           
           
