@@ -1,15 +1,12 @@
 from fastapi import APIRouter, Body
 from fastapi.encoders import jsonable_encoder
-from pprint import pprint
 from server.database import (
     add_voucher
 )
 from server.models import (
     response_error,
     response_success,
-    Voucher,
-    Item,
-    ProductEAN
+    Voucher
 )
 
 import requests, os
