@@ -60,7 +60,7 @@ jobs:
           script: |
             cd /app/vouchers
             tar -xf deploy.tar
-            docker build -t vouchers .
+            docker build -t vouchers /app/vouchers
             docker run -d --name vouchers_container -p 8000:8000 vouchers
 
           
