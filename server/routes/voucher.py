@@ -25,6 +25,7 @@ async def add_voucher_data(voucher_qr_raw: str):
     data = r.json().get("data")
     if not isinstance(data, dict):
         return response_error("OFD_ERROR", r.status_code, str(data))
+    data = data.get("json")
     voucher = {
         "code": data.get("code"),
         "user": data.get("user"),
