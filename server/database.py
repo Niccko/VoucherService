@@ -5,7 +5,7 @@ import motor.motor_asyncio
 log = os.getenv("MONGO_LOGIN")
 pwd = os.getenv("MONGO_PWD")
 
-MONGO_DETAILS = f"mongodb:{log}:{pwd}//localhost:27017"
+MONGO_DETAILS = f"mongodb://{log}:{pwd}@localhost:27017"
 
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS)
 
