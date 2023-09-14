@@ -63,7 +63,7 @@ jobs:
             tar -xf deploy.tar
             docker rm -f vouchers_container
             docker build -t vouchers /app/vouchers
-            docker run -d --name vouchers_container -p 8000:8000 --env-file /app/.env vouchers
+            docker run -d --name vouchers_container -p 8000:8000 --net=host --env-file /app/.env vouchers
 
           
           
