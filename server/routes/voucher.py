@@ -68,7 +68,7 @@ async def add_voucher_data(voucher_qr_raw: str):
 async def get_vouchers():
     students = await retrieve_vouchers()
     if students:
-        return response_success(students, "Students data retrieved successfully")
+        return response_success(students, "Voucher data retrieved successfully")
     return response_success(students, "Empty list returned")
 
 
