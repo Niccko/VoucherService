@@ -1,4 +1,5 @@
 from typing import List, Optional
+from uuid import uuid1
 
 from pydantic import BaseModel, Field
 from datetime import datetime
@@ -20,6 +21,8 @@ class Item(BaseModel):
 
 
 class Voucher(BaseModel):
+    id: int = Field(default_factory=lambda: uuid1().hex, alias="_id")
+    raw_code: str = Field(...)
     code: int = Field(...)
     user: str = Field()
     operation_dttm: datetime = Field(...)

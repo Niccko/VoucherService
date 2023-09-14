@@ -1,7 +1,12 @@
-from fastapi import APIRouter, Body
+from fastapi import APIRouter
 from fastapi.encoders import jsonable_encoder
 from server.database import (
-    add_voucher
+    add_voucher,
+    retrieve_vouchers,
+    retrieve_voucher,
+    retrieve_voucher_by_fields,
+    add_raw,
+    get_raw
 )
 from server.models import (
     response_error,
@@ -9,24 +14,26 @@ from server.models import (
     Voucher
 )
 
-import requests, os
+from server.sources import get_ofd_info
+
+from uuid import uuid1
 
 router = APIRouter()
 
 
 @router.post("/", response_description="Voucher data added into the database")
 async def add_voucher_data(voucher_qr_raw: str):
-    token = os.getenv("OFD_TOKEN")
-    url = 'https://proverkacheka.com/api/v1/check/get'
-    r = requests.post(url, data={"qrraw": voucher_qr_raw, "token": token})
-
-    if not r.status_code == 200:
-        return response_error("OFD_ERROR", r.status_code, "Error while getting voucher info")
-    data = r.json().get("data")
-    if not isinstance(data, dict):
-        return response_error("OFD_ERROR", r.status_code, str(data))
-    data = data.get("json")
+    if await retrieve_voucher_by_fields(raw_code=voucher_qr_raw):
+        return response_error("Already exists", 400, f"Voucher {voucher_qr_raw} already processed")
+    try:
+        data = await get_raw("VouchersRaw", raw_code=voucher_qr_raw)
+        if not data:
+            data = get_ofd_info(voucher_qr_raw)
+    except Exception as e:
+        return response_error(*e.args)
+    await add_raw("VouchersRaw", {**data, "raw_code": voucher_qr_raw, "_id": uuid1().hex})
     voucher = {
+        "raw_code": voucher_qr_raw,
         "code": data.get("code"),
         "user": data.get("user"),
         "operation_dttm": data.get("dateTime"),
@@ -55,3 +62,19 @@ async def add_voucher_data(voucher_qr_raw: str):
     v = jsonable_encoder(Voucher(**voucher))
     new_voucher = await add_voucher(v)
     return response_success(data=new_voucher, message="Voucher added successfully.")
+
+
+@router.get("/", response_description="Got list of vouchers")
+async def get_vouchers():
+    students = await retrieve_vouchers()
+    if students:
+        return response_success(students, "Students data retrieved successfully")
+    return response_success(students, "Empty list returned")
+
+
+@router.get("/{id}", response_description="Voucher data retrieved")
+async def get_voucher(id):
+    student = await retrieve_voucher(id)
+    if student:
+        return response_success(student, "Voucher data retrieved successfully")
+    return response_error("An error occurred.", 404, "Voucher doesn't exist.")
