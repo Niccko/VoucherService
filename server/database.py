@@ -16,9 +16,9 @@ async def add_voucher(voucher_data: dict) -> bool:
     return new_voucher
 
 
-async def retrieve_vouchers():
+async def retrieve_vouchers(page=1, limit=10):
     vouchers = []
-    async for student in voucher_collection.find():
+    async for student in voucher_collection.find().skip((page - 1) * limit).limit(limit):
         vouchers.append(student)
     return vouchers
 

@@ -65,8 +65,8 @@ async def add_voucher_data(voucher_qr_raw: str):
 
 
 @router.get("/", response_description="Got list of vouchers")
-async def get_vouchers():
-    students = await retrieve_vouchers()
+async def get_vouchers(page: int = 1, limit: int = 10):
+    students = await retrieve_vouchers(page, limit)
     if students:
         return response_success(students, "Voucher data retrieved successfully")
     return response_success(students, "Empty list returned")

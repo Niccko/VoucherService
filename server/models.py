@@ -28,7 +28,7 @@ class Voucher(BaseModel):
     operation_dttm: datetime = Field(...)
     total_sum: float = Field(..., gt=0)
     retail_place: str = Field()
-    address: str = Field(...)
+    address: Optional[str] = None
     items: List[Item] = Field(...)
 
 
